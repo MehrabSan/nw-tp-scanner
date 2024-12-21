@@ -9,6 +9,7 @@
 5. Position yourself for the best accuracy, especially for the page count.
 6. Press `F3` to start the scan.
 7. **Don't touch** anything until it stops. If you need to stop it, press `F8`.
-8. Check `%localappdata%\NWMPScanner\current\logs` folder if anything goes wrong. 
+8. Check `logs` folder if anything goes wrong.
+9. Data is saved to `auctions` folder.
 
 ## Use it on your own risk.
