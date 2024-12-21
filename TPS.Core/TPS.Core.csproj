@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Emgu.CV" Version="4.9.0.5494" />
+    <PackageReference Include="Emgu.CV.Bitmap" Version="4.9.0.5494" />
+    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.9.0.5494" />
+    <PackageReference Include="Emgu.runtime.windows.msvc.rt.x64" Version="19.39.33523" />
+    <PackageReference Include="Fastenshtein" Version="1.0.10" />
+    <PackageReference Include="FuzzierSharp" Version="3.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.10" />
+    <PackageReference Include="TesseractOCR" Version="5.3.5" />
+    <PackageReference Include="Vanara.PInvoke.User32" Version="4.0.4" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\AHK.Interop\AHK.Interop.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="data\eng.traineddata">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Adain\.nuget\packages\tesseractocr\5.3.5\build\\..\x64\leptonica-1.83.1.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Adain\.nuget\packages\tesseractocr\5.3.5\build\\..\x64\tesseract53.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Adain\.nuget\packages\tesseractocr\5.3.5\build\\..\x86\leptonica-1.83.1.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Adain\.nuget\packages\tesseractocr\5.3.5\build\\..\x86\tesseract53.dll" />
+  </ItemGroup>
+
+</Project>
