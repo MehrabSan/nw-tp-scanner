@@ -1,0 +1,51 @@
+name: Build & Pack (TPS.Desktop)
+
+on:
+  push:
+    branches: [ auto-build ]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install Velopack CLI
+        run: dotnet tool install -g vpk
+
+      - name: Restore
+        run: dotnet restore .\TradingPostScanner.sln
+
+      - name: Build (Release)
+        run: dotnet build .\TradingPostScanner.sln -c Release --no-restore
+
+      - name: Publish (win-x64)
+        run: dotnet publish .\TPS.Desktop\TPS.Desktop.csproj -c Release -r win-x64 --self-contained false -o .\out\win-x64
+
+      - name: Pack with Velopack
+        shell: pwsh
+        run: |
+          $version = (Get-Date -Format "yyyy.MM.dd.HHmm")
+          vpk pack `
+            -p ".\out\win-x64" `
+            -e "TPS.Desktop.exe" `
+            -v "$version" `
+            -u "https://github.com/${{ github.repository }}/releases/latest" `
+            -o ".\dist\win-x64"
+          Write-Host "Packed version $version"
+
+      - name: Upload Artifacts (Exe, Setup, Publish)
+        uses: actions/upload-artifact@v4
+        with:
+          name: tps-desktop-win-x64
+          path: |
+            dist\win-x64\**
+            out\win-x64\**
+            out\win-x64\TPS.Desktop.exe
