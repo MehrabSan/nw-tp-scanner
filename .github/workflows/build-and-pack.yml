@@ -20,27 +20,40 @@ jobs:
       - name: Install Velopack CLI
         run: dotnet tool install -g vpk
 
+      - name: Locate solution (auto-detect .sln)
+        id: sln
+        shell: pwsh
+        run: |
+          $sln = Get-ChildItem -Path . -Filter *.sln -Recurse | Select-Object -First 1
+          if (-not $sln) { Write-Error "No .sln found in repo"; exit 1 }
+          "sln=$($sln.FullName)" >> $env:GITHUB_OUTPUT
+          Write-Host "Using solution: $($sln.FullName)"
+
       - name: Restore
-        run: dotnet restore .\TradingPostScanner.sln
+        shell: pwsh
+        run: dotnet restore "${{ steps.sln.outputs.sln }}"
 
       - name: Build (Release)
-        run: dotnet build .\TradingPostScanner.sln -c Release --no-restore
+        shell: pwsh
+        run: dotnet build "${{ steps.sln.outputs.sln }}" -c Release --no-restore
 
       - name: Publish (win-x64)
+        shell: pwsh
         run: dotnet publish .\TPS.Desktop\TPS.Desktop.csproj -c Release -r win-x64 --self-contained false -o .\out\win-x64
 
       - name: Pack with Velopack
         shell: pwsh
         run: |
-          $appid   = "NWTPScanner"                 # فقط حروف/عدد/_/-. 
-          $version = "0.1.${{ github.run_number }}" # نسخه سه‌قسمتی (SemVer)
+          $appid   = "NWTPScanner"                  # فقط حروف/عدد/_/-/. مجاز هستند
+          $version = "0.1.${{ github.run_number }}" # نسخه سه‌بخشی (SemVer)
           vpk pack `
             -u "$appid" `
             -v "$version" `
             -p ".\out\win-x64" `
             -e "TPS.Desktop.exe" `
             -o ".\dist\win-x64" `
-            -n "NW TP Scanner"
+            -n "NW TP Scanner" `
+            --signTemplate "cmd /c echo SKIP SIGN {{file}}"
           Write-Host "Packed $appid $version"
 
       - name: Upload Artifacts (Exe, Setup, Publish)
