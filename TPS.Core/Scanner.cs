@@ -204,8 +204,8 @@ public static class Scanner
             Logger.Flush();
             if (cancellationToken.IsCancellationRequested) throw new TPSExitException();
             if (auctions.Count < 20) continue;
-            await ApiClient.Upload(serverName, category.Name, auctions);
-
+        //  //   await ApiClient.Upload(serverName, category.Name, auctions);
+//
         }
     }
 
@@ -318,4 +318,5 @@ public static class Scanner
 
         return results;
     }
+
 }
