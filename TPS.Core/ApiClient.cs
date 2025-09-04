@@ -5,6 +5,8 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using FuzzierSharp;
 using TPS.Core.Models;
+using System.Collections.Generic;
+
 
 namespace TPS.Core;
 
@@ -45,7 +47,10 @@ public static class ApiClient
 
     public static void GetServers()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, "https://nwmpapi.gaming.tools/servers");
+        
+                Servers = new List<ServerModel>();
+        return;
+var request = new HttpRequestMessage(HttpMethod.Get, "https://nwmpapi.gaming.tools/servers");
         request.Headers.UserAgent.ParseAdd("gaming.tools");
         var response = HttpClient.Send(request);
         if (!response.IsSuccessStatusCode) throw new TPSCoreException("Could not fetch the servers list");
@@ -58,11 +63,17 @@ public static class ApiClient
 
 
     public static List<ItemModel> GetItems()
-    {
-        var request = new HttpRequestMessage(HttpMethod.Get, "https://scdn.gaming.tools/nwmp/data/items/en.json");
+    
+         
+{
+
+                return new List<ItemModel>();
+var request = new HttpRequestMessage(HttpMethod.Get, "https://scdn.gaming.tools/nwmp/data/items/en.json");
         request.Headers.UserAgent.ParseAdd("gaming.tools");
         var response = HttpClient.Send(request);
-        if (!response.IsSuccessStatusCode) throw new TPSCoreException("Could not fetch the items list");
+
+         
+if (!response.IsSuccessStatusCode) throw new TPSCoreException("Could not fetch the items list");
         using var stream = response.Content.ReadAsStream();
         using var reader = new StreamReader(stream);
         var json = reader.ReadToEnd();
@@ -84,8 +95,12 @@ public static class ApiClient
 
     public static async Task Upload(string server, string category, List<AuctionModel> auctions)
     {
-        var model = new AuctionRequest
-        {
+
+                return;
+var model = new AuctionRequest
+
+         
+{
             Server = server,
             Category = category,
             Version = Scanner.Version,
@@ -115,4 +130,5 @@ public class ServerModel
     public string Type { get; set; }
     [JsonPropertyName("region")]
     public string Region { get; set; }
+
 }
