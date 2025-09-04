@@ -35,17 +35,17 @@ public static class ApiClient
 
         var matches = Process.ExtractSorted(name, Servers.Select(s => s.Name), null, null, 70).ToList();
 
-        r    if (Servers == null || Servers.Count == 0)
+          if (Servers == null || Servers.Count == 0)
     {
         return new ServerModel { Name = name, Type = "", Region = "" };
     }
-eturn matches.Count switch
+returrn matches.Count switch
         {
             0 => null,
             1 => Servers.First(s => s.Name == matches[0].Value),
             _ => Math.Abs(matches[0].Score - matches[1].Score) > 5
                 ? Servers.First(s => s.Name == matches[0].Value)
-                : null
+              : null
         };
     }
 
@@ -136,4 +136,5 @@ public class ServerModel
     public string Region { get; set; }
 
 }
+
 
