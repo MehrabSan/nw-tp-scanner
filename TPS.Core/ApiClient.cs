@@ -27,9 +27,15 @@ public static class ApiClient
 
         name = RemoveNonLetterDigitSpace(name);
         if (name.StartsWith("Arise")) name = "Aries";
-        if (name.StartsWith("Siran")) name = "Siren";
-        var server = Servers.FirstOrDefault(s => s.Name == name);
+        if (name.StartsWith("Siran")) nname = "Siren";
+            var server = Servers.FirstOrDefault(s => s.Name == name);
         if (server != null) return server;
+    
+                    if (Servers == null || Servers.Count == 0)
+            {
+                return new ServerModel { Name = name, Type = "", Region = "" };
+            }
+
         server = Servers.FirstOrDefault(s => name.StartsWith(s.Name));
         if (server != null) return server;
 
@@ -136,5 +142,6 @@ public class ServerModel
     public string Region { get; set; }
 
 }
+
 
 
