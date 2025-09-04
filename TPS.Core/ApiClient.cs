@@ -35,7 +35,11 @@ public static class ApiClient
 
         var matches = Process.ExtractSorted(name, Servers.Select(s => s.Name), null, null, 70).ToList();
 
-        return matches.Count switch
+        r    if (Servers == null || Servers.Count == 0)
+    {
+        return new ServerModel { Name = name, Type = "", Region = "" };
+    }
+eturn matches.Count switch
         {
             0 => null,
             1 => Servers.First(s => s.Name == matches[0].Value),
@@ -132,3 +136,4 @@ public class ServerModel
     public string Region { get; set; }
 
 }
+
