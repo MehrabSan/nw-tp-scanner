@@ -14,7 +14,7 @@ internal static class Program
 #if !DEBUG
         try
         {
-            await UpdateMyApp();
+            //await UpdateMyApp();
 
         }
         catch (Exception e)
@@ -30,7 +30,8 @@ internal static class Program
         var version = FileVersionInfo.GetVersionInfo(Application.ExecutablePath);
         Scanner.Version = $"{version.FileMajorPart}.{version.FileMinorPart}.{version.FileBuildPart}";
 #endif
-        ApplicationConfiguration.Initialize();
+        ApplicationConfiguration.In
+
         Application.Run(new MainForm());
 
         Application.ApplicationExit += Application_ApplicationExit;
@@ -44,7 +45,9 @@ internal static class Program
     internal static async Task UpdateMyApp()
     {
         var mgr = new UpdateManager("https://nwmpapp.gaming.tools/nwmp-app");
-
+   return;
+ 
+        
         // check for new version
         var newVersion = await mgr.CheckForUpdatesAsync();
         if (newVersion == null)
@@ -57,5 +60,6 @@ internal static class Program
         // install new version and restart app
         mgr.ApplyUpdatesAndRestart(newVersion);
     }
+
 
 }
