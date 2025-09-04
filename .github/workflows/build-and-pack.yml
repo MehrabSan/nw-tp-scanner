@@ -32,16 +32,19 @@ jobs:
       - name: Pack with Velopack
         shell: pwsh
         run: |
-          $version = (Get-Date -Format "yyyy.MM.dd.HHmm")
+          $appid   = "NWTPScanner"                 # فقط حروف/عدد/_/-. 
+          $version = "0.1.${{ github.run_number }}" # نسخه سه‌قسمتی (SemVer)
           vpk pack `
+            -u "$appid" `
+            -v "$version" `
             -p ".\out\win-x64" `
             -e "TPS.Desktop.exe" `
-            -v "$version" `
-            -u "https://github.com/${{ github.repository }}/releases/latest" `
-            -o ".\dist\win-x64"
-          Write-Host "Packed version $version"
+            -o ".\dist\win-x64" `
+            -n "NW TP Scanner"
+          Write-Host "Packed $appid $version"
 
       - name: Upload Artifacts (Exe, Setup, Publish)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: tps-desktop-win-x64
